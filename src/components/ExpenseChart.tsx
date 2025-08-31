@@ -77,7 +77,10 @@ export function ExpenseChart({ transactions }: ExpenseChartProps) {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-card/95 backdrop-blur-xl border border-border/50 rounded-xl p-4 shadow-elevated">
+        <div
+          className="bg-card/95 backdrop-blur-xl border border-border/50 rounded-xl p-4 shadow-elevated"
+          style={{ maxWidth: 180, minWidth: 120, pointerEvents: 'auto', wordBreak: 'break-word' }}
+        >
           <p className="font-semibold text-base mb-2">{data.name}</p>
           <div className="space-y-1">
             <p className="text-expense font-bold text-lg">
@@ -147,7 +150,11 @@ export function ExpenseChart({ transactions }: ExpenseChartProps) {
                   />
                 ))}
               </Pie>
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip 
+                content={<CustomTooltip />} 
+                wrapperStyle={{ zIndex: 50, pointerEvents: 'auto' }}
+                cursor={{ fill: 'rgba(0,0,0,0.04)' }}
+              />
             </PieChart>
           </ResponsiveContainer>
           

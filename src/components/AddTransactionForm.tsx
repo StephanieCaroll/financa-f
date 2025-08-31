@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 
 interface AddTransactionFormProps {
   onAddTransaction: (transaction: Omit<Transaction, 'id'>) => void;
+  initialValues?: Transaction;
 }
 
 const EXPENSE_CATEGORIES = [
@@ -22,12 +23,12 @@ const INCOME_CATEGORIES = [
   'Salário', 'Freelance', 'Investimentos', 'Vendas', 'Bônus', 'Outros'
 ];
 
-export function AddTransactionForm({ onAddTransaction }: AddTransactionFormProps) {
-  const [type, setType] = useState<'income' | 'expense'>('expense');
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
-  const [notes, setNotes] = useState('');
+export function AddTransactionForm({ onAddTransaction, initialValues }: AddTransactionFormProps) {
+  const [type, setType] = useState<'income' | 'expense'>(initialValues?.type || 'expense');
+  const [amount, setAmount] = useState(initialValues ? String(initialValues.amount) : '');
+  const [category, setCategory] = useState(initialValues?.category || '');
+  const [description, setDescription] = useState(initialValues?.description || '');
+  const [notes, setNotes] = useState(initialValues?.notes || '');
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,11 +54,12 @@ export function AddTransactionForm({ onAddTransaction }: AddTransactionFormProps
 
     onAddTransaction(transaction);
     
-    // Reset form
-    setAmount('');
-    setCategory('');
-    setDescription('');
-    setNotes('');
+  // Reset form
+  setAmount('');
+  setCategory('');
+  setDescription('');
+  setNotes('');
+  setType('expense');
     
     toast({
       title: "✨ Transação adicionada!",

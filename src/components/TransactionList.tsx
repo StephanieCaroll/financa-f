@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Transaction } from "@/types/finance";
 import { Calendar, FileText, TrendingDown, TrendingUp, Clock, Sparkles } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
@@ -10,9 +11,11 @@ interface TransactionListProps {
   transactions: Transaction[];
   title?: string;
   limit?: number;
+  onEditTransaction?: (transaction: Transaction) => void;
+  onDeleteTransaction?: (id: string) => void;
 }
 
-export function TransactionList({ transactions, title = "Transações Recentes", limit }: TransactionListProps) {
+export function TransactionList({ transactions, title = "Transações Recentes", limit, onEditTransaction, onDeleteTransaction }: TransactionListProps) {
   const displayTransactions = limit ? transactions.slice(0, limit) : transactions;
   const sortedTransactions = [...displayTransactions].sort((a, b) => 
     new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -113,13 +116,29 @@ export function TransactionList({ transactions, title = "Transações Recentes",
               </div>
               
               <div className="text-right space-y-1">
-                <div className={cn(
-                  "text-xl font-bold transition-all duration-300",
-                  transaction.type === 'income' 
-                    ? 'text-income group-hover:text-income' 
-                    : 'text-expense group-hover:text-expense'
-                )}>
-                  {transaction.type === 'income' ? '+' : '-'}R$ {transaction.amount.toFixed(2)}
+                <div className="flex items-center gap-2 justify-end">
+                  <span className={cn(
+                    "text-xl font-bold transition-all duration-300",
+                    transaction.type === 'income' 
+                      ? 'text-income group-hover:text-income' 
+                      : 'text-expense group-hover:text-expense'
+                  )}>
+                    {transaction.type === 'income' ? '+' : '-'}R$ {transaction.amount.toFixed(2)}
+                  </span>
+                  <button
+                    className="p-1 rounded hover:bg-primary/10 transition-colors"
+                    title="Editar transação"
+                    onClick={() => onEditTransaction && onEditTransaction(transaction)}
+                  >
+                    <Pencil className="h-4 w-4 text-primary" />
+                  </button>
+                  <button
+                    className="p-1 rounded hover:bg-expense/10 transition-colors"
+                    title="Deletar transação"
+                    onClick={() => onDeleteTransaction && onDeleteTransaction(transaction.id)}
+                  >
+                    <Trash2 className="h-4 w-4 text-expense" />
+                  </button>
                 </div>
                 <div className="text-xs text-muted-foreground">
                   {transaction.type === 'income' ? '💰 Receita' : '💸 Despesa'}
