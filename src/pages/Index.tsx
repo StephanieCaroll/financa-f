@@ -306,11 +306,44 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Novos recursos premium */}
+
+        {/* Novos recursos premium com layout de card preview */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-8">
-          <div><BudgetsGoals budgets={budgets} onSetBudget={handleSetBudget} progress={budgetProgress} /></div>
-          <div><AdvancedReports monthlyData={advancedReportsData} /></div>
-          <div><SmartAlerts alerts={alerts} budgets={budgets} budgetProgress={budgetProgress} transactions={transactions} /></div>
+          {/* Orçamentos & Metas */}
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-neutral/10 backdrop-blur-xl card-hover">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 rounded-xl bg-gradient-primary text-primary-foreground">
+                <Target className="h-5 w-5" />
+              </div>
+              <h3 className="font-playfair font-semibold text-lg">Orçamentos & Metas</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-4">
+              Defina limites por categoria e acompanhe o progresso das suas metas financeiras.
+            </p>
+            <BudgetsGoals budgets={budgets} onSetBudget={handleSetBudget} progress={budgetProgress} />
+          </div>
+          {/* Relatórios Avançados */}
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-income/10 to-primary/10 backdrop-blur-xl card-hover">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 rounded-xl bg-gradient-income text-income-foreground">
+                <BarChart3 className="h-5 w-5" />
+              </div>
+              <h3 className="font-playfair font-semibold text-lg">Relatórios Avançados</h3>
+            </div>
+           
+            <AdvancedReports monthlyData={advancedReportsData} />
+          </div>
+          {/* Alertas Inteligentes */}
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-expense/10 to-neutral/10 backdrop-blur-xl card-hover">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 rounded-xl bg-gradient-expense text-expense-foreground">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <h3 className="font-playfair font-semibold text-lg">Alertas Inteligentes</h3>
+            </div>
+            
+            <SmartAlerts alerts={alerts} budgets={budgets} budgetProgress={budgetProgress} transactions={transactions} />
+          </div>
         </div>
 
         {/* Main Content Grid com formulário, gráfico e histórico */}
@@ -342,44 +375,7 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Premium Features Preview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-neutral/10 backdrop-blur-xl border border-primary/20 card-hover">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-primary text-primary-foreground">
-                <Target className="h-5 w-5" />
-              </div>
-              <h3 className="font-playfair font-semibold text-lg">Orçamentos & Metas</h3>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Defina limites por categoria e acompanhe o progresso das suas metas financeiras.
-            </p>
-          </div>
-          
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-income/10 to-primary/10 backdrop-blur-xl border border-income/20 card-hover">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-income text-income-foreground">
-                <BarChart3 className="h-5 w-5" />
-              </div>
-              <h3 className="font-playfair font-semibold text-lg">Relatórios Avançados</h3>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Análises detalhadas com comparativos mensais e insights personalizados.
-            </p>
-          </div>
-          
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-expense/10 to-neutral/10 backdrop-blur-xl border border-expense/20 card-hover">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-expense text-expense-foreground">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <h3 className="font-playfair font-semibold text-lg">Alertas Inteligentes</h3>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Notificações automáticas quando você se aproxima dos limites de orçamento.
-            </p>
-          </div>
-        </div>
+
 
         {/* Premium Footer */}
         <div className="text-center py-12 border-t border-border/30 animate-fade-in" style={{ animationDelay: '1.4s' }}>
