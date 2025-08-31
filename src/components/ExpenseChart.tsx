@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import { Transaction } from "@/types/finance";
-import { PieChart as PieChartIcon } from "lucide-react";
+import { PieChart as PieChartIcon, Sparkles, TrendingUp } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ExpenseChartProps {
   transactions: Transaction[];
@@ -24,17 +25,27 @@ export function ExpenseChart({ transactions }: ExpenseChartProps) {
   
   if (expenses.length === 0) {
     return (
-      <Card className="shadow-card">
+      <Card className="shadow-elevated border-0 bg-gradient-card backdrop-blur-xl animate-scale-in">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <PieChartIcon className="h-5 w-5" />
-            Distribuição de Gastos
+          <CardTitle className="flex items-center gap-3 text-xl font-playfair">
+            <div className="p-2 rounded-xl bg-gradient-primary text-primary-foreground animate-pulse-glow">
+              <PieChartIcon className="h-5 w-5" />
+            </div>
+            <span className="gradient-text">Distribuição de Gastos</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8 text-muted-foreground">
-            <PieChartIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p>Nenhuma despesa registrada ainda.</p>
+          <div className="text-center py-12 space-y-4">
+            <div className="relative">
+              <PieChartIcon className="h-16 w-16 mx-auto text-muted-foreground/50 animate-float" />
+              <Sparkles className="h-6 w-6 absolute -top-2 -right-2 text-primary animate-pulse" />
+            </div>
+            <div className="space-y-2">
+              <p className="text-lg font-medium text-muted-foreground">Nenhuma despesa registrada ainda</p>
+              <p className="text-sm text-muted-foreground/70">
+                Adicione algumas despesas para ver a distribuição dos seus gastos! ✨
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -66,68 +77,110 @@ export function ExpenseChart({ transactions }: ExpenseChartProps) {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-card border rounded-lg p-3 shadow-lg">
-          <p className="font-medium">{data.name}</p>
-          <p className="text-expense font-semibold">
-            R$ {data.value.toFixed(2)}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            {data.percentage}% do total
-          </p>
+        <div className="bg-card/95 backdrop-blur-xl border border-border/50 rounded-xl p-4 shadow-elevated">
+          <p className="font-semibold text-base mb-2">{data.name}</p>
+          <div className="space-y-1">
+            <p className="text-expense font-bold text-lg">
+              R$ {data.value.toFixed(2)}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {data.percentage}% do total de gastos
+            </p>
+          </div>
         </div>
       );
     }
     return null;
   };
 
+  const CustomLegend = ({ payload }: any) => {
+    return (
+      <div className="flex flex-wrap justify-center gap-2 mt-4">
+        {payload?.map((entry: any, index: number) => (
+          <div
+            key={index}
+            className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 backdrop-blur-sm border border-white/40 text-xs font-medium"
+          >
+            <div
+              className="w-3 h-3 rounded-full"
+              style={{ backgroundColor: entry.color }}
+            />
+            <span>{entry.value} ({entry.payload.percentage}%)</span>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
-    <Card className="shadow-card">
+    <Card className="shadow-elevated border-0 bg-gradient-card backdrop-blur-xl animate-scale-in">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <PieChartIcon className="h-5 w-5" />
-          Distribuição de Gastos
+        <CardTitle className="flex items-center gap-3 text-xl font-playfair">
+          <div className="p-2 rounded-xl bg-gradient-primary text-primary-foreground animate-pulse-glow">
+            <PieChartIcon className="h-5 w-5" />
+          </div>
+          <span className="gradient-text">Distribuição de Gastos</span>
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="h-80">
+      
+      <CardContent className="pt-4">
+        <div className="h-80 relative">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={chartData}
                 cx="50%"
                 cy="50%"
-                innerRadius={60}
-                outerRadius={120}
-                paddingAngle={2}
+                innerRadius={70}
+                outerRadius={130}
+                paddingAngle={3}
                 dataKey="value"
+                className="animate-fade-in"
               >
                 {chartData.map((entry, index) => (
                   <Cell 
                     key={`cell-${index}`} 
                     fill={COLORS[index % COLORS.length]}
                     stroke="white"
-                    strokeWidth={2}
+                    strokeWidth={3}
+                    className="hover:opacity-80 transition-opacity duration-300"
                   />
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
-              <Legend 
-                verticalAlign="bottom" 
-                height={36}
-                formatter={(value: string, entry: any) => 
-                  `${value} (${entry.payload.percentage}%)`
-                }
-              />
             </PieChart>
           </ResponsiveContainer>
+          
+          {/* Center content */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="text-center space-y-1">
+              <div className="text-sm text-muted-foreground font-medium">Total</div>
+              <div className="text-2xl font-bold text-expense">
+                R$ {total.toFixed(2)}
+              </div>
+            </div>
+          </div>
         </div>
         
-        <div className="mt-4 space-y-2">
-          <div className="text-center">
-            <p className="text-sm text-muted-foreground">Total de Gastos</p>
-            <p className="text-2xl font-bold text-expense">
-              R$ {total.toFixed(2)}
-            </p>
+        <CustomLegend payload={chartData.map((item, index) => ({
+          value: item.name,
+          color: COLORS[index % COLORS.length],
+          payload: item
+        }))} />
+        
+        <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-expense/10 to-primary/10 backdrop-blur-sm border border-expense/20">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-expense/20">
+              <TrendingUp className="h-4 w-4 text-expense" />
+            </div>
+            <div>
+              <p className="text-sm font-medium">Análise de Gastos</p>
+              <p className="text-xs text-muted-foreground">
+                Maior categoria: <span className="font-semibold text-expense">
+                  {chartData[0]?.name} (R$ {chartData[0]?.value.toFixed(2)})
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       </CardContent>
