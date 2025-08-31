@@ -67,15 +67,16 @@ export function TransactionList({ transactions, title = "Transações Recentes",
             <div
               key={transaction.id}
               className={cn(
-                "group flex items-center justify-between p-4 rounded-xl border transition-all duration-300",
+                // Layout responsivo: coluna no mobile, linha no desktop
+                "group flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 p-3 sm:p-4 rounded-xl border transition-all duration-300",
                 "bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm hover:shadow-card hover:scale-[1.01] cursor-pointer",
                 "animate-fade-in-up border-border/50 hover:border-primary/30"
               )}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 sm:gap-4">
                 <div className={cn(
-                  "p-3 rounded-xl transition-all duration-300 group-hover:scale-110",
+                  "p-2 sm:p-3 rounded-xl transition-all duration-300 group-hover:scale-110",
                   transaction.type === 'income' 
                     ? 'bg-gradient-income text-income-foreground shadow-income/30' 
                     : 'bg-gradient-expense text-expense-foreground shadow-expense/30'
@@ -86,45 +87,41 @@ export function TransactionList({ transactions, title = "Transações Recentes",
                     <TrendingDown className="h-5 w-5" />
                   )}
                 </div>
-                
-                <div className="flex-1 space-y-2">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h4 className="font-semibold text-base group-hover:text-primary transition-colors">
+                <div className="flex-1 space-y-1 sm:space-y-2">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1">
+                    <h4 className="font-semibold text-sm sm:text-base group-hover:text-primary transition-colors">
                       {transaction.description}
                     </h4>
                     <Badge 
                       variant="secondary" 
-                      className="text-xs px-3 py-1 bg-white/60 backdrop-blur-sm border border-white/40 hover:bg-primary/10 transition-colors"
+                      className="text-xs px-2 sm:px-3 py-1 bg-white/60 backdrop-blur-sm border border-white/40 hover:bg-primary/10 transition-colors"
                     >
                       {transaction.category}
                     </Badge>
                   </div>
-                  
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
                       <span>{format(new Date(transaction.date), "dd 'de' MMM, yyyy", { locale: ptBR })}</span>
                     </div>
                   </div>
-                  
                   {transaction.notes && (
-                    <p className="text-xs text-muted-foreground/80 bg-white/30 backdrop-blur-sm px-3 py-1 rounded-lg max-w-xs truncate">
+                    <p className="text-xs text-muted-foreground/80 bg-white/30 backdrop-blur-sm px-2 sm:px-3 py-1 rounded-lg max-w-full sm:max-w-xs truncate">
                       💭 {transaction.notes}
                     </p>
                   )}
                 </div>
               </div>
-              
-              <div className="text-right space-y-1">
-                <div className="flex items-center gap-2 justify-end">
-                  <span className={cn(
-                    "text-xl font-bold transition-all duration-300",
-                    transaction.type === 'income' 
-                      ? 'text-income group-hover:text-income' 
-                      : 'text-expense group-hover:text-expense'
-                  )}>
-                    {transaction.type === 'income' ? '+' : '-'}R$ {transaction.amount.toFixed(2)}
-                  </span>
+              <div className="flex flex-row sm:flex-col items-end sm:items-end justify-between sm:justify-end gap-2 sm:gap-1 mt-2 sm:mt-0">
+                <span className={cn(
+                  "text-base sm:text-xl font-bold transition-all duration-300",
+                  transaction.type === 'income' 
+                    ? 'text-income group-hover:text-income' 
+                    : 'text-expense group-hover:text-expense'
+                )}>
+                  {transaction.type === 'income' ? '+' : '-'}R$ {transaction.amount.toFixed(2)}
+                </span>
+                <div className="flex gap-1">
                   <button
                     className="p-1 rounded hover:bg-primary/10 transition-colors"
                     title="Editar transação"
@@ -140,7 +137,7 @@ export function TransactionList({ transactions, title = "Transações Recentes",
                     <Trash2 className="h-4 w-4 text-expense" />
                   </button>
                 </div>
-                <div className="text-xs text-muted-foreground">
+                <div className="text-xs text-muted-foreground text-right sm:text-left">
                   {transaction.type === 'income' ? '💰 Receita' : '💸 Despesa'}
                 </div>
               </div>
