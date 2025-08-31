@@ -8,9 +8,9 @@ import { Wallet, TrendingUp, TrendingDown, DollarSign, Sparkles, Target, BarChar
 import { BudgetsGoals } from "@/components/BudgetsGoals";
 import { AdvancedReports } from "@/components/AdvancedReports";
 import { SmartAlerts } from "@/components/SmartAlerts";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 
-// Mock data for initial state
 const MOCK_TRANSACTIONS: Transaction[] = [
   {
     id: '1',
@@ -49,15 +49,14 @@ const MOCK_TRANSACTIONS: Transaction[] = [
   }
 ];
 
-
 const Index = () => {
   const [transactions, setTransactions] = useState<Transaction[]>(MOCK_TRANSACTIONS);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
-  // Estado para orçamentos/metas
+
   type Budget = { category: string; limit: number };
   const [budgets, setBudgets] = useState<Budget[]>([]);
-  // Progresso de gastos por categoria
+
   const budgetProgress = useMemo(() => {
     const progress: Record<string, number> = {};
     transactions.forEach(t => {
@@ -67,6 +66,7 @@ const Index = () => {
     });
     return progress;
   }, [transactions]);
+
   const handleSetBudget = (category: string, limit: number) => {
     setBudgets(prev => {
       const exists = prev.find(b => b.category === category);
@@ -232,20 +232,25 @@ const Index = () => {
           }}
         />
       </div>
-      
-      <div className="relative z-10 container mx-auto p-6 space-y-12">
+
+      {/* Header Premium Fixo */}
+      <header className="fixed top-0 left-0 w-full z-30 bg-background/80 backdrop-blur-xl border-b border-border/40 shadow-lg animate-fade-in-up">
+        <div className="container mx-auto flex items-center justify-between py-3 px-4">
+          <div className="flex items-center gap-3">
+            <Sparkles className="h-7 w-7 text-primary animate-pulse" />
+            <span className="text-xl font-playfair font-bold gradient-text tracking-tight select-none">FinF Premium</span>
+          </div>
+          <ThemeToggle />
+        </div>
+      </header>
+
+      <div className="relative z-10 container mx-auto p-6 pt-28 space-y-12">
         {/* Premium Header */}
         <div className="text-center space-y-6 animate-fade-in-up">
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 backdrop-blur-xl border border-white/20">
-            <Sparkles className="h-5 w-5 text-primary animate-pulse" />
-            <span className="text-sm font-medium text-primary">Sistema Premium de Controle Financeiro</span>
-          </div>
-          
           <h1 className="text-6xl font-bold font-playfair gradient-text animate-fade-in-up" 
               style={{ animationDelay: '0.2s' }}>
-            Controle Financeiro
+            Seu Controle Financeiro
           </h1>
-          
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-fade-in-up font-inter"
              style={{ animationDelay: '0.4s' }}>
             Transforme sua relação com o dinheiro através de uma gestão financeira inteligente, 
@@ -310,9 +315,9 @@ const Index = () => {
         {/* Novos recursos premium com layout de card preview */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-8">
           {/* Orçamentos & Metas */}
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-neutral/10 backdrop-blur-xl card-hover">
+          <div className="p-6 rounded-2xl glass-effect shadow-elevated card-hover group transition-all duration-300">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-primary text-primary-foreground">
+              <div className="p-3 rounded-xl bg-gradient-primary text-primary-foreground group-hover:scale-110 transition-transform">
                 <Target className="h-5 w-5" />
               </div>
               <h3 className="font-playfair font-semibold text-lg">Orçamentos & Metas</h3>
@@ -323,32 +328,29 @@ const Index = () => {
             <BudgetsGoals budgets={budgets} onSetBudget={handleSetBudget} progress={budgetProgress} />
           </div>
           {/* Relatórios Avançados */}
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-income/10 to-primary/10 backdrop-blur-xl card-hover">
+          <div className="p-6 rounded-2xl glass-effect shadow-elevated card-hover group transition-all duration-300">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-income text-income-foreground">
+              <div className="p-3 rounded-xl bg-gradient-income text-income-foreground group-hover:scale-110 transition-transform">
                 <BarChart3 className="h-5 w-5" />
               </div>
               <h3 className="font-playfair font-semibold text-lg">Relatórios Avançados</h3>
             </div>
-           
             <AdvancedReports monthlyData={advancedReportsData} />
           </div>
           {/* Alertas Inteligentes */}
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-expense/10 to-neutral/10 backdrop-blur-xl card-hover">
+          <div className="p-6 rounded-2xl glass-effect shadow-elevated card-hover group transition-all duration-300">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-expense text-expense-foreground">
+              <div className="p-3 rounded-xl bg-gradient-expense text-expense-foreground group-hover:scale-110 transition-transform">
                 <Sparkles className="h-5 w-5" />
               </div>
               <h3 className="font-playfair font-semibold text-lg">Alertas Inteligentes</h3>
             </div>
-            
             <SmartAlerts alerts={alerts} budgets={budgets} budgetProgress={budgetProgress} transactions={transactions} />
           </div>
         </div>
 
-        {/* Main Content Grid com formulário, gráfico e histórico */}
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-8">
-          {/* Left Column - Form and Chart */}
+
           <div className="xl:col-span-2 space-y-8">
             <div className="animate-slide-up" style={{ animationDelay: '0.6s' }}>
               <AddTransactionForm
@@ -363,7 +365,6 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Right Column - Transaction List */}
           <div className="xl:col-span-3 animate-slide-up" style={{ animationDelay: '1s' }}>
             <TransactionList 
               transactions={transactions} 
@@ -376,21 +377,19 @@ const Index = () => {
         </div>
 
 
-
-        {/* Premium Footer */}
-        <div className="text-center py-12 border-t border-border/30 animate-fade-in" style={{ animationDelay: '1.4s' }}>
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-primary/10 backdrop-blur-sm border border-primary/20">
+        <footer className="text-center py-10 mt-12 glass-effect border-t border-border/30 animate-fade-in-up" style={{ animationDelay: '1.4s' }}>
+          <div className="flex flex-col items-center gap-3">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-primary/10 border border-primary/20 shadow-elevated animate-fade-in-up">
               <Sparkles className="h-4 w-4 text-primary animate-pulse" />
               <span className="text-sm font-medium text-primary font-playfair">
-                Sistema Completo de Controle Financeiro
+                FinF Premium &copy; {new Date().getFullYear()}
               </span>
             </div>
-            <p className="text-sm text-muted-foreground">
-              ✨ Versão 1.0 Premium - Desenvolvido com tecnologias de ponta para sua experiência financeira
+            <p className="text-xs text-muted-foreground font-inter">
+              Desenvolvido por <span className="font-semibold text-primary">Stephanie Caroll</span> com tecnologias de ponta para sua experiência financeira.
             </p>
           </div>
-        </div>
+        </footer>
       </div>
     </div>
   );

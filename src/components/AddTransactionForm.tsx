@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, TrendingUp, TrendingDown, Sparkles } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Transaction } from "@/types/finance";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -24,6 +25,8 @@ const INCOME_CATEGORIES = [
 ];
 
 export function AddTransactionForm({ onAddTransaction, initialValues }: AddTransactionFormProps) {
+  // Exemplo de loading: pode ser controlado por props futuramente
+  const [loading, setLoading] = useState(false);
   const [type, setType] = useState<'income' | 'expense'>(initialValues?.type || 'expense');
   const [amount, setAmount] = useState(initialValues ? String(initialValues.amount) : '');
   const [category, setCategory] = useState(initialValues?.category || '');
@@ -33,8 +36,9 @@ export function AddTransactionForm({ onAddTransaction, initialValues }: AddTrans
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+    setLoading(true);
     if (!amount || !category || !description) {
+      setLoading(false);
       toast({
         title: "Campos obrigatórios",
         description: "Preencha valor, categoria e descrição.",
@@ -42,7 +46,6 @@ export function AddTransactionForm({ onAddTransaction, initialValues }: AddTrans
       });
       return;
     }
-
     const transaction: Omit<Transaction, 'id'> = {
       amount: parseFloat(amount),
       type,
@@ -51,26 +54,23 @@ export function AddTransactionForm({ onAddTransaction, initialValues }: AddTrans
       date: new Date(),
       notes: notes || undefined
     };
-
     onAddTransaction(transaction);
-    
-  // Reset form
-  setAmount('');
-  setCategory('');
-  setDescription('');
-  setNotes('');
-  setType('expense');
-    
+    setAmount('');
+    setCategory('');
+    setDescription('');
+    setNotes('');
+    setType('expense');
     toast({
       title: "✨ Transação adicionada!",
       description: `${type === 'income' ? 'Receita' : 'Despesa'} de R$ ${amount} registrada com sucesso.`,
     });
+    setTimeout(() => setLoading(false), 600); // Simula carregamento
   };
 
   const categories = type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
 
   return (
-    <Card className="shadow-elevated border-0 bg-gradient-card backdrop-blur-xl animate-scale-in card-hover group">
+    <Card className="shadow-elevated border-0 bg-gradient-card dark:bg-gradient-to-br dark:from-background dark:to-secondary/40 backdrop-blur-xl animate-scale-in card-hover group">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-3 text-xl font-playfair">
           <div className="p-2 rounded-xl bg-gradient-primary text-primary-foreground animate-pulse-glow">
@@ -136,29 +136,29 @@ export function AddTransactionForm({ onAddTransaction, initialValues }: AddTrans
                 placeholder="0,00"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="h-12 text-lg pl-4 bg-white/50 backdrop-blur-sm border-2 focus:border-primary/50 transition-all duration-300"
+                className="h-12 text-lg pl-4 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-2 focus:border-primary/50 transition-all duration-300"
                 required
               />
-              <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                <span className="text-muted-foreground font-medium">R$</span>
-              </div>
-            </div>
+                  <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                    <span className="text-muted-foreground font-medium">R$</span>
+                  </div>
+                </div>
           </div>
 
           {/* Category Selection */}
           <div className="space-y-3">
             <Label htmlFor="category" className="text-sm font-medium tracking-wide">Categoria</Label>
             <Select value={category} onValueChange={setCategory} required>
-              <SelectTrigger className="h-12 bg-white/50 backdrop-blur-sm border-2 focus:border-primary/50">
+              <SelectTrigger className="h-12 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-2 focus:border-primary/50 transition-all duration-300">
                 <SelectValue placeholder="✨ Selecione uma categoria" />
               </SelectTrigger>
-              <SelectContent className="backdrop-blur-xl bg-white/95">
-                {categories.map((cat) => (
-                  <SelectItem key={cat} value={cat} className="hover:bg-primary/10">
-                    {cat}
-                  </SelectItem>
-                ))}
-              </SelectContent>
+                <SelectContent className="backdrop-blur-xl bg-white/95 transition-all">
+                  {categories.map((cat) => (
+                    <SelectItem key={cat} value={cat} className="hover:bg-primary/10 transition-all">
+                      {cat}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
             </Select>
           </div>
 
@@ -170,10 +170,10 @@ export function AddTransactionForm({ onAddTransaction, initialValues }: AddTrans
               placeholder="Ex: Almoço no restaurante favorito"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="h-12 bg-white/50 backdrop-blur-sm border-2 focus:border-primary/50 transition-all duration-300"
+              className="h-12 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-2 focus:border-primary/50 transition-all duration-300"
               required
             />
-          </div>
+            </div>
 
           {/* Notes Input */}
           <div className="space-y-3">
@@ -184,7 +184,7 @@ export function AddTransactionForm({ onAddTransaction, initialValues }: AddTrans
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
-              className="bg-white/50 backdrop-blur-sm border-2 focus:border-primary/50 transition-all duration-300 resize-none"
+              className="bg-white/80 dark:bg-black/80 backdrop-blur-sm border-2 focus:border-primary/50 transition-all duration-300 resize-none"
             />
           </div>
 

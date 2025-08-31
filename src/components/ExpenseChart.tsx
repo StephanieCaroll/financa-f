@@ -20,12 +20,11 @@ const COLORS = [
 ];
 
 export function ExpenseChart({ transactions }: ExpenseChartProps) {
-  // Filter only expenses for the chart
   const expenses = transactions.filter(t => t.type === 'expense');
   
   if (expenses.length === 0) {
     return (
-      <Card className="shadow-elevated border-0 bg-gradient-card backdrop-blur-xl animate-scale-in">
+  <Card className="shadow-elevated border-0 bg-white/80 dark:bg-black/80 backdrop-blur-xl animate-scale-in">
         <CardHeader>
           <CardTitle className="flex items-center gap-3 text-xl font-playfair">
             <div className="p-2 rounded-xl bg-gradient-primary text-primary-foreground animate-pulse-glow">
@@ -116,7 +115,7 @@ export function ExpenseChart({ transactions }: ExpenseChartProps) {
   };
 
   return (
-    <Card className="shadow-elevated border-0 bg-gradient-card backdrop-blur-xl animate-scale-in">
+  <Card className="shadow-elevated border-0 bg-white/80 dark:bg-black/80 backdrop-blur-xl animate-scale-in">
       <CardHeader>
         <CardTitle className="flex items-center gap-3 text-xl font-playfair">
           <div className="p-2 rounded-xl bg-gradient-primary text-primary-foreground animate-pulse-glow">

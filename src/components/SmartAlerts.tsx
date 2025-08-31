@@ -1,4 +1,3 @@
-// ...existing code...
 import { useAiAdvice } from "@/hooks/useAiAdvice";
 
 interface SmartAlertsProps {

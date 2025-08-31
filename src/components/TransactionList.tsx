@@ -23,7 +23,7 @@ export function TransactionList({ transactions, title = "Transações Recentes",
 
   if (sortedTransactions.length === 0) {
     return (
-      <Card className="shadow-elevated border-0 bg-gradient-card backdrop-blur-xl animate-fade-in">
+      <Card className="shadow-elevated border-0 bg-gradient-card dark:bg-gradient-to-br dark:from-background dark:to-secondary/40 backdrop-blur-xl animate-fade-in">
         <CardHeader>
           <CardTitle className="flex items-center gap-3 text-xl font-playfair">
             <div className="p-2 rounded-xl bg-gradient-primary text-primary-foreground animate-pulse-glow">
@@ -51,7 +51,7 @@ export function TransactionList({ transactions, title = "Transações Recentes",
   }
 
   return (
-    <Card className="shadow-elevated border-0 bg-gradient-card backdrop-blur-xl animate-fade-in">
+  <Card className="shadow-elevated border-0 bg-gradient-card dark:bg-gradient-to-br dark:from-background dark:to-secondary/40 backdrop-blur-xl animate-fade-in">
       <CardHeader>
         <CardTitle className="flex items-center gap-3 text-xl font-playfair">
           <div className="p-2 rounded-xl bg-gradient-primary text-primary-foreground animate-pulse-glow">
@@ -68,7 +68,7 @@ export function TransactionList({ transactions, title = "Transações Recentes",
               key={transaction.id}
               className={cn(
                 "group flex items-center justify-between p-4 rounded-xl border transition-all duration-300",
-                "bg-gradient-card backdrop-blur-sm hover:shadow-card hover:scale-[1.01] cursor-pointer",
+                "bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm hover:shadow-card hover:scale-[1.01] cursor-pointer",
                 "animate-fade-in-up border-border/50 hover:border-primary/30"
               )}
               style={{ animationDelay: `${index * 0.1}s` }}

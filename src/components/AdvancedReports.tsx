@@ -1,4 +1,3 @@
-// ...existing code...
 
 interface AdvancedReportsProps {
   monthlyData: Array<{ month: string; income: number; expenses: number; balance: number }>;
