@@ -6,7 +6,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/StephanieCaroll/financa-f?style=for-the-badge)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/StephanieCaroll/financa-f?style=for-the-badge)
 
-<img src="https://i.imgur.com/9fXxJvK.png" alt="Tela inicial do FinF">
+<img src="https://i.imgur.com/1YxFZJZ.png" alt="Tela inicial do Finanças IA">
 
 > Aplicativo web para controle de finanças pessoais com Inteligência Artificial integrada. Gerencie seu dinheiro com mais agilidade, inteligência e clareza.
 
