@@ -78,7 +78,17 @@ Acesse http://localhost:3000 no navegador para visualizar o dashboard. Faça log
 ## 👥 Colaboradores
 Agradecemos às seguintes pessoas que contribuíram para este projeto:
 
-<table> <tr> <td align="center"> <a href="#" title="Stephanie Caroline"> <img src="https://avatars.githubusercontent.com/u/00000000" width="100px;" alt="Foto da Stephanie"/><br> <sub><b>Stephanie Caroline</b></sub> </a> </td> <td align="center"></table>
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/StephanieCaroll" title="Stephanie Caroline">
+        <img src="https://github.com/StephanieCaroll.png" width="100px;" alt="Foto da Stephanie"/><br>
+        <sub><b>Stephanie Caroline</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
 
 ## 📫 Contribuindo para FinF Premium
 
