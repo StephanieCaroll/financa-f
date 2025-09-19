@@ -52,8 +52,8 @@ Para instalar o FinF Premium, siga estas etapas:
 Linux e macOS:
 
 ```bash
-git clone https://github.com/seuusuario/financas-ia.git
-cd financas-ia
+git clone https://github.com/StephanieCaroll/financa-f.git
+cd financas-f
 npm install
 npm start
 ```
@@ -61,8 +61,8 @@ npm start
 Windows:
 
 ```
-git clone https://github.com/seuusuario/financas-ia.git
-cd financas-ia
+git clone https://github.com/StephanieCaroll/financa-f.git
+cd financas-f
 npm install
 npm start
 ```
